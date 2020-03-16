@@ -11,7 +11,6 @@ public class Score : MonoBehaviour
     public static Score Instance;
 
     public Dictionary<int, PlayerScore> playerDictionary = new Dictionary<int, PlayerScore>();
-    public List<PlayerScore> EveryPlayerThatCompletedTheRace = new List<PlayerScore>();
 
     //class being serialized
     public ScoreBoard scoreBoard;
@@ -45,7 +44,7 @@ public class Score : MonoBehaviour
         LoadAllPlayers();
     }
 
-    //called when the game starts creates of all the active players
+    //called when the game starts create a list of all the active players
     public void PopulatePlayerList()
     {
         //getting current players
@@ -55,11 +54,6 @@ public class Score : MonoBehaviour
             playerDictionary.Add(temp.playerNumber, new PlayerScore(temp.playerNumber, temp.gameObject));
         }
 
-        //add new players to AllPlayers Json
-        foreach (var player in EveryPlayerThatCompletedTheRace)
-        {
-            scoreBoard.PushData(player);
-        }
     }
 
 
@@ -102,7 +96,7 @@ public class Score : MonoBehaviour
 
         Save.SaveAllPlayers(this);
 
-        EveryPlayerThatCompletedTheRace.Add(player);
+        scoreBoard.PushData(player);
 
         UpdateGlobalScoreboard();
     }
@@ -139,39 +133,7 @@ public class Score : MonoBehaviour
             InGameUI.Instance.top10Text[i].SetText(tempTop10[i]);
         }
     }
-
-   
-
-    #region Debugging
-
-    public void testscorething()
-    {
-        //create a list of 15 fake players
-        for (int i = 0; i < 15; i++)
-        {
-            EveryPlayerThatCompletedTheRace.Add(new PlayerScore(Random.Range(1, 100), new GameObject()));
-        }
-
-        //give all the players a random time
-        foreach (var playerScore in EveryPlayerThatCompletedTheRace)
-        {
-            playerScore.time = Random.Range(100, 200);
-
-            scoreBoard.PushData(playerScore);
-        }
-
-        foreach (var test in scoreBoard.cachedPlayerScores)
-        {
-            print($"Test------{test.time}");
-        }
-
-
-        Save.SaveAllPlayers(this);
-        UpdateGlobalScoreboard();
-    }
-
-    #endregion
-
+    
     #region Tools
 
     private void LoadAllPlayers()
@@ -184,11 +146,8 @@ public class Score : MonoBehaviour
             print("No data present inside Json AllPlayers");
             return;
         }
-        // find all players into the Json and add them to the list of everyPlayerThatCompletedTheRace
-        foreach (var tempPlayer in data.cachedPlayerScores.Select(player => new PlayerScore(-999, null) {time = player.time, playerName = player.name}))
-        {
-            EveryPlayerThatCompletedTheRace.Add(tempPlayer);
-        }
+        // assign Json list to new class    
+        ScoreBoard.cachedPlayerScores = data.cachedPlayerScores;
     }
     
     private bool CheckIfPlayerExist(int _playerNumber, out PlayerScore player)

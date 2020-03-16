@@ -19,17 +19,20 @@ public class AltoMovement : MonoBehaviour
 
     #region Visible
 
-    [Header("Text")] public TextMeshProUGUI accelerationText;
-    public TextMeshProUGUI groundedText;
-    public TextMeshProUGUI magnitudeText;
-    public TextMeshProUGUI massText;
-    public TextMeshProUGUI gravityText;
-    public TextMeshProUGUI dragText;
-    public TextMeshProUGUI dynamicFrictionText;
-    public TextMeshProUGUI staticFrictionText;
-    public TextMeshProUGUI bouncinessText;
-    public TextMeshProUGUI jetpackForceText;
-    public TextMeshProUGUI deadZoneText;
+    
+    [Header("Text"),Serialized] private TextMeshProUGUI 
+        accelerationText,
+        groundedText,
+        magnitudeText,
+        massText,
+        gravityText,
+        dragText,
+        dynamicFrictionText,
+        staticFrictionText,
+        bouncinessText,
+        jetpackForceText,
+        deadZoneText;
+  
 
     [Space, Header("Alto variables")] [SerializeField, Tooltip("ray cast checking on this layer")]
     private LayerMask floor;
@@ -106,7 +109,7 @@ public class AltoMovement : MonoBehaviour
         LoadPhysicData();
     }
 
-    //get input from specific player
+    //get input from specific Alto
     public void ReceiveMyAltoData(float _degree, float _magnitude)
     {
         degree = _degree;
@@ -147,7 +150,7 @@ public class AltoMovement : MonoBehaviour
         var ray = new Ray(tposition.position, Vector3.down);
 
         //check if grounded
-        _grounded = Physics.SphereCast(ray, 0.45f, (_bodyCollider.height / 2) * 1.5f, floor);
+        _grounded = Physics.SphereCast(ray, 0.45f, (_bodyCollider.height / 2) * 0.5f, floor);
 
         //apply force if input is above the deadZone
         if (IsEngaged(magnitude))
@@ -158,7 +161,7 @@ public class AltoMovement : MonoBehaviour
 
     private void RaycastingMovement()
     {
-        //set up position the height and the raycst origine
+        //set up position, height and the raycst origine
         Vector3 position = tposition.position;
         float height = _bodyCollider.height;
         Vector3 startOfRaycast =
@@ -302,7 +305,7 @@ public class AltoMovement : MonoBehaviour
         }
     }
 
-    private void TextUpdate()
+    public void TextUpdate()
     {
         accelerationText.text = acceleration.ToString("F2") + "A";
         magnitudeText.text = magnitude + "Mag";
