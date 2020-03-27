@@ -9,19 +9,18 @@ public class AltoMovement : MonoBehaviour
     //enum representing the strength of player input
     private enum EMoveStrength
     {
-        NULL,
-        MINIMAL,
-        MEDIUM,
-        MAXIMUM
+        Null,
+        Minimum,
+        Medium,
+        Maximum
     }
 
-    #region Variables
 
-    #region Visible
+    #region Visible Variables
 
-    
-    [Header("Text"),Serialized] private TextMeshProUGUI 
-        accelerationText,
+
+    [Header("Text"), Serialized] private TextMeshProUGUI accelerationText;
+    [SerializeField] private TextMeshProUGUI
         groundedText,
         magnitudeText,
         massText,
@@ -66,7 +65,7 @@ public class AltoMovement : MonoBehaviour
 
     #endregion
 
-    #region Invisible
+    #region Invisible Variables
 
     private bool jetpackOn;
     private bool _grounded;
@@ -86,9 +85,31 @@ public class AltoMovement : MonoBehaviour
 
     #endregion
 
-    #endregion
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void Start()
     {
         _bodyCollider = GetComponent<CapsuleCollider>();
@@ -140,7 +161,6 @@ public class AltoMovement : MonoBehaviour
         if (jetpackOn)
             rigi.AddForce(Vector3.up * jetpackForce);
 
-
         //todo: add different controls for in air and on ground
 
         //calculate movement direction
@@ -158,7 +178,7 @@ public class AltoMovement : MonoBehaviour
             rigi.AddForce(direction * acceleration);
         }
     }
-
+    // determine in which direction the force should be applied in
     private void RaycastingMovement()
     {
         //set up position, height and the raycst origine
@@ -248,11 +268,10 @@ public class AltoMovement : MonoBehaviour
     {
         jetpackOn = value;
     }
-
+    
+    //responsible for all the visualisation of the player's input
     private void AltoVisualisation()
     {
-//        var dir = DirFromAngle(degree, false).normalized;
-
         //determine the axis of rotation
         var myCrossProduct = Vector3.Cross(direction, Vector3.up);
 
@@ -279,22 +298,22 @@ public class AltoMovement : MonoBehaviour
         //active arrows depending of magnitude input
         switch (CurrentMoveStrength(magnitude))
         {
-            case EMoveStrength.MINIMAL:
+            case EMoveStrength.Minimum:
                 lines[0].enabled = true;
                 lines[1].enabled = false;
                 lines[2].enabled = false;
                 break;
-            case EMoveStrength.MEDIUM:
+            case EMoveStrength.Medium:
                 lines[0].enabled = true;
                 lines[1].enabled = true;
                 lines[2].enabled = false;
                 break;
-            case EMoveStrength.MAXIMUM:
+            case EMoveStrength.Maximum:
                 lines[0].enabled = true;
                 lines[1].enabled = true;
                 lines[2].enabled = true;
                 break;
-            case EMoveStrength.NULL:
+            case EMoveStrength.Null:
                 lines[0].enabled = false;
                 lines[1].enabled = false;
                 lines[2].enabled = false;
@@ -323,10 +342,10 @@ public class AltoMovement : MonoBehaviour
 
     private EMoveStrength CurrentMoveStrength(float currentMagnitude)
     {
-        if (currentMagnitude > 0.8f) return EMoveStrength.MAXIMUM;
-        if (currentMagnitude > 0.6f) return EMoveStrength.MEDIUM;
-        if (currentMagnitude > 0.4f) return EMoveStrength.MINIMAL;
-        return EMoveStrength.NULL;
+        if (currentMagnitude > 0.8f) return EMoveStrength.Maximum;
+        if (currentMagnitude > 0.6f) return EMoveStrength.Medium;
+        if (currentMagnitude > 0.4f) return EMoveStrength.Minimal;
+        return EMoveStrength.Null;
     }
 
     private bool IsEngaged(float magnitudeValue)

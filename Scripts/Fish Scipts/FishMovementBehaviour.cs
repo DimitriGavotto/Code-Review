@@ -50,7 +50,7 @@ public class FishMovementBehaviour : MonoBehaviour
     private float maxRotationSpeed;
     List<Vector3> raycastPoints = new List<Vector3>(500);
     private bool canFindNewWanderingPoint;
-
+    private Material fishMaterial;
     #endregion
 
     #endregion
@@ -141,7 +141,7 @@ public class FishMovementBehaviour : MonoBehaviour
     //set a new target for the fish and stop fish wandering
     public void GoTowardsNewTarget(Transform newTarget)
     {
-        GetComponentInChildren<MeshRenderer>().material.color = Color.black;
+       fishMaterial.color = Color.black;
         targetTransform = newTarget;
         wandering = false;
     }
@@ -401,43 +401,9 @@ public class FishMovementBehaviour : MonoBehaviour
         {
             Gizmos.DrawSphere(raycastPoint, 0.01f);
         }
+        
         Gizmos.color = Color.white;
-        Gizmos.DrawSphere(target, 0.1f);
+        Gizmos.DrawSphere(target, 0.05f);
         
-        
-//
-//        Gizmos.color = Color.green;
-//
-//        for (int i = 0; i < 8; i++)
-//        {
-//            Gizmos.DrawSphere(raycastPoints[i], 0.01f);
-//        }
-//
-//        Gizmos.color = Color.yellow;
-//
-//        for (int i = 8; i < 24; i++)
-//        {
-//            Gizmos.DrawSphere(raycastPoints[i], 0.01f);
-//        }
-//
-//        Gizmos.color = new Color(0.96f, 0.66f, 0.12f);
-//        for (int i = 24; i < 48; i++)
-//        {
-//            Gizmos.DrawSphere(raycastPoints[i], 0.01f);
-//        }
-//
-//        Gizmos.color = new Color(0.65f, 0.33f, 0.12f);
-//        for (int i = 48; i < 80; i++)
-//        {
-//            Gizmos.DrawSphere(raycastPoints[i], 0.01f);
-//        }
-
-//        Gizmos.color = Color.yellow;
-//
-//        foreach (var p in randomPoint)
-//        {
-////            print($"rayc length:{raycastPoints.Count}");
-//            Gizmos.DrawSphere(p, 0.01f);
-//        }
     }
 }

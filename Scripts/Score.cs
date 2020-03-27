@@ -8,7 +8,7 @@ public class Score : MonoBehaviour
 {
     #region Invisible Variables
 
-    public static Score Instance;
+    public static Score Instance { get; private set; }
 
     public Dictionary<int, PlayerScore> playerDictionary = new Dictionary<int, PlayerScore>();
 
@@ -36,6 +36,7 @@ public class Score : MonoBehaviour
             Debug.Log("This Score._instance is not the singleton, destroying");
 
             Destroy(gameObject);
+            return;
         }
 
         #endregion
@@ -56,7 +57,6 @@ public class Score : MonoBehaviour
 
     }
 
-
     //keeps track of when a player is getting hit
     public void AddNewHit(int _playerNumber)
     {
@@ -66,7 +66,7 @@ public class Score : MonoBehaviour
 
         player.hitAmount++;
 
-        player.playerGameObject.GetComponent<PlayerNet>().UpdateScoreOnPlayer(player.hitAmount,
+        player.PlayerNet.UpdateScoreOnPlayer(player.hitAmount,
             player.gotHitAmount);
     }
 
@@ -79,7 +79,7 @@ public class Score : MonoBehaviour
         
         player.gotHitAmount++;
 
-        player.playerGameObject.GetComponent<PlayerNet>().UpdateScoreOnPlayer(playerDictionary[_playerNumber].hitAmount,
+        player.PlayerNet.UpdateScoreOnPlayer(playerDictionary[_playerNumber].hitAmount,
             player.gotHitAmount);
         
     }
@@ -101,7 +101,7 @@ public class Score : MonoBehaviour
         UpdateGlobalScoreboard();
     }
 
-
+    // grabs list of all players, get the top 10 players and send it to be displayed
     public void UpdateGlobalScoreboard()
     {
         List<PlayerScoreData> tempscoreboardRecorderList = new List<PlayerScoreData>(scoreBoard.cachedPlayerScores);
@@ -135,7 +135,8 @@ public class Score : MonoBehaviour
     }
     
     #region Tools
-
+    
+    //load playerJson
     private void LoadAllPlayers()
     {
         //get Json data
