@@ -4,13 +4,13 @@
 [RequireComponent(typeof(Collider), typeof(Rigidbody), typeof(FishMovementBehaviour))]
 public class Fish : MonoBehaviour, IEatable
 {
-    #region Variables
 
-    #region Invinsible
+
+    #region Invinsible Variables
 
     #endregion
 
-    #region Visible
+    #region Visible Variables
 
     [SerializeField] private GameObject fishBlood;
     [SerializeField] private bool applyRandomGenes;
@@ -21,7 +21,7 @@ public class Fish : MonoBehaviour, IEatable
     private FishFoodBehaviour _foodBehaviour;
     private FishEvolution _fishEvolution;
 
-    #endregion
+   
 
     #region Properties
     public float CurrentSize => transform.localScale.x;

@@ -3,15 +3,14 @@ using UnityEngine;
 
 public class FishFoodBehaviour : MonoBehaviour
 {
-    #region Variables
 
-    #region  Invisilbe
+    #region  Invisilbe Variables
 
     private Fish _fish;
 
     #endregion
 
-    #region Visible
+    #region Visible Variables
 
     [SerializeField, Tooltip("Check this layer for food")]
     private LayerMask foodLayer;
@@ -24,7 +23,6 @@ public class FishFoodBehaviour : MonoBehaviour
 
     #endregion Visible
 
-    #endregion Variables
 
 
     private void Awake()
@@ -88,7 +86,7 @@ public class FishFoodBehaviour : MonoBehaviour
     //scale the size of fish depending on what the fish ate
     private void AteFood(float foodSize)
     {
-        _fish.SetFishScale(_fish.CurrentSize * (1 + foodSize / 1));
+        _fish.SetFishScale(_fish.CurrentSize * (1 + foodSize / 1.2f);
     }
 
     public void UpdateFishFoodDetectionRadius(float newRadius)
